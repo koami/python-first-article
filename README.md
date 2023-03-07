@@ -102,6 +102,7 @@ In this example, we define a decorator called **make_pretty** that takes a funct
 
 - Logging decorator: 
 A logging decorator can be used to log information about a function call. This can be useful for debugging and auditing.
+
 ---
 ```python
 import logging
@@ -122,6 +123,46 @@ print(any_func(3, 5))
 ```
 In this example, we define a decorator called **logger** that takes a function as an argument and returns a new function called **wrapper**. **wrapper** uses the logging library to save the usage of the function, **wrapper** returns the cached result instead of calling the function again. We apply the decorator to the **any_func** function using the **@** syntax.
 
+- Conditional Decorators:
+In the following program, the program takes user input to decide on the condition. If the user enters 1, the decorator is called and the string is returned in uppercase. If the user enters 2, again a decorator is called and the given string is returned in lowercase. Apart from this if any other number is entered the function is returned as it is without any modification.
+
+---
+```python
+def decorator1(func):
+      
+    def wrapper():
+        oldstring = func()
+        newstring = oldstring.upper()
+        return newstring
+      
+    return wrapper
+  
+def decorator2(func):
+      
+    def wrapper():
+        oldstring = func()
+        newstring = oldstring.lower()
+        return newstring
+      
+    return wrapper
+  
+cond = 1
+  
+if cond == 1:
+    @decorator1
+    def func():
+        return 'GeeksFORGeeKs'
+elif cond == 2:
+    @decorator2
+    def func():
+        return 'GeeksFORGeeKs'
+else:
+    def func():
+        return 'GeeksFORGeeKs'
+      
+print(func())
+```
+
 ## Potentials alternatives
 While decorators are a usefull feature in Python that allow us to modify the behavior of functions or classes, there are some alternative approaches that can achieve similar results:
 
@@ -136,6 +177,52 @@ While decorators are a usefull feature in Python that allow us to modify the beh
 While decorators are a powerful and widely used feature in Python, it's important to understand that they are not the only way to modify the behavior of functions and classes. By choosing the right approach for the problem at hand, we can write more flexible and maintainable code.
 
 ## Data analysis use cases
+
+- Performance check:
+Timing our function is great and all but we want more info. In addition to duration, this next decorator provides information on the function, including the name and docstring, as well as performance information such as memory usage:
+
+---
+```python
+def performance_check(func):
+    """Measure performance of a function"""
+
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+      tracemalloc.start()
+      start_time = time.perf_counter()
+      res = func(*args, **kwargs)
+      duration = time.perf_counter() - start_time
+      current, peak = tracemalloc.get_traced_memory()
+      tracemalloc.stop()
+
+      print(f"\nFunction:             {func.__name__} ({func.__doc__})"
+            f"\nMemory usage:         {current / 10**6:.6f} MB"
+            f"\nPeak memory usage:    {peak / 10**6:.6f} MB"
+            f"\nDuration:             {duration:.6f} sec"
+            f"\n{'-'*40}"
+      )
+      return res
+    return wrapper
+```
+It is pretty similar to the previous function, only we print out more information:
+
+---
+```python
+@performance_check
+def is_prime_number(number: int):
+    """ Checks whether a number is a prime number """
+    ....rest of the function
+```
+Calling is_prime_number(number=9843861881) will print out the following:
+
+---
+```sh
+Function:             is_prime_number ( Checks whether a number is a prime number )
+Memory usage:         0.000432 MB
+Peak memory usage:    0.000622 MB
+Duration:             0.000015 sec
+----------------------------------------
+```
 
 - Timing Function Execution:
 When working with large datasets, it can be useful to time how long certain operations take. We can use a decorator to add timing functionality to a function. Here's an example:
@@ -216,3 +303,14 @@ In conclusion, decorators are a robust feature in Python that allow developers t
 In this article, we have covered the basics of decorators, including their concept and theory, and provided several practical examples that illustrate their usefulness. Additionally, we explored some potential alternatives to decorators, such as subclassing and function composition.
 
 Finally, we discussed how decorators can be applied in the context of data analysis, highlighting their usefulness for tasks such as debugging, profiling, and caching. Overall, decorators are an essential tool in the Python developer's toolkit and can greatly improve the efficiency and maintainability of code.
+
+## Sources 
+- [Decorator Pattern](https://en.wikipedia.org/wiki/Decorator_pattern)
+- [Python syntax and semantics](https://en.wikipedia.org/wiki/Python_syntax_and_semantics#Decorators)
+- [Decorators in Python](https://www.geeksforgeeks.org/decorators-in-python)
+- [Python Decorators](https://www.programiz.com/python-programming/decorator)
+- [5 real handy python decorators for analyzing/debugging your code](https://towardsdatascience.com/5-real-handy-python-decorators-for-analyzing-debugging-your-code-c22067318d47)
+- [Conditional Decorators in Python](https://www.geeksforgeeks.org/conditional-decorators-in-python/?ref=rp)
+- [Python - measure function execution time with decorator](https://stackoverflow.com/questions/70642928/python-measure-function-execution-time-with-decorator)
+- [Memoization using decorators in Python](https://www.geeksforgeeks.org/memoization-using-decorators-in-python/?ref=rp)
+- [Timing Functions With Decorators – Python](https://www.geeksforgeeks.org/timing-functions-with-decorators-python/)
