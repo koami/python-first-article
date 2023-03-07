@@ -1,4 +1,8 @@
-# Decorators in Python
+![](./img/Logo.png){width=2in}
+
+# Python Exam for Master I DIT Session of November 2022
+
+# Theme : Decorators in Python
 
 ## Introduction
 
