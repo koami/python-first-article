@@ -110,7 +110,19 @@ def fibonacci(n):
 ```
 In this example, we define a decorator called **cache_decorator** that takes a function as an argument and returns a new function called **wrapper**. **wrapper** uses a cache dictionary to store the results of the function and checks the cache before calling the function. If the result is already in the cache, **wrapper** returns the cached result instead of calling the function again. We apply the decorator to the **fibonacci** function using the **@** syntax.
 
+
 ## Potentials alternatives
+While decorators are a usefull feature in Python that allow us to modify the behavior of functions or classes, there are some alternative approaches that can achieve similar results:
+
+Higher-Order Functions: In Python, functions are first-class objects, which means they can be passed as arguments to other functions and returned as values. We can use higher-order functions to wrap or modify existing functions without using decorators. For example, we can define a function that takes a function as an argument, modifies its behavior, and returns the modified function.
+
+Inheritance and Composition: Inheritance and composition are object-oriented programming techniques that allow us to reuse code and modify the behavior of existing classes. By creating subclasses or composing classes, we can add or override methods and properties to change the behavior of an existing class.
+
+Context Managers: Context managers provide a way to manage resources and ensure that they are properly initialized and cleaned up. We can use context managers to modify the behavior of functions or classes by wrapping them in a with statement.
+
+Function Factories: Function factories are functions that create other functions. We can use function factories to create customized versions of a function with different behavior or parameters. This approach is similar to using higher-order functions but can be more flexible and modular.
+
+While decorators are a powerful and widely used feature in Python, it's important to understand that they are not the only way to modify the behavior of functions and classes. By choosing the right approach for the problem at hand, we can write more flexible and maintainable code.
 
 ## Data analysis use cases
 
